@@ -65,34 +65,38 @@ export const WorkspaceSidebar = () => {
         <SidebarItem label="Threads" icon={MessageSquareText} id="threads" />
         <SidebarItem label="Drafts & Sent" icon={SendHorizontal} id="drafts" />
       </div>
-      <WorkspaceSection
-        label="Channels"
-        hint="New channel"
-        onNew={member.role === "admin" ? () => setOpen(true) : undefined}
-      >
-        {channels?.map((item) => (
-          <SidebarItem
-            key={item._id}
-            icon={Hash}
-            label={item.name}
-            id={item._id}
-          />
-        ))}
-      </WorkspaceSection>
-      <WorkspaceSection
-        label="Direct messages"
-        hint="New direct message"
-        onNew={() => {}}
-      >
-        {members?.map((item) => (
-          <UserItem
-            key={item._id}
-            label={item.user.name}
-            id={item._id}
-            image={item.user.image}
-          />
-        ))}
-      </WorkspaceSection>
+      {!channelsLoading && (
+        <WorkspaceSection
+          label="Channels"
+          hint="New channel"
+          onNew={member.role === "admin" ? () => setOpen(true) : undefined}
+        >
+          {channels?.map((item) => (
+            <SidebarItem
+              key={item._id}
+              icon={Hash}
+              label={item.name}
+              id={item._id}
+            />
+          ))}
+        </WorkspaceSection>
+      )}
+      {!membersLoading && (
+        <WorkspaceSection
+          label="Direct messages"
+          hint="New direct message"
+          onNew={() => {}}
+        >
+          {members?.map((item) => (
+            <UserItem
+              key={item._id}
+              label={item.user.name}
+              id={item._id}
+              image={item.user.image}
+            />
+          ))}
+        </WorkspaceSection>
+      )}
     </div>
   );
 };

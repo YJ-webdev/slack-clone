@@ -21,7 +21,7 @@ export const get = query({
       .withIndex("by_workspace_id", (q) =>
         q.eq("workspaceId", args.workspaceId),
       )
-      .unique();
+      .collect();
 
     if (!member) {
       return [];
