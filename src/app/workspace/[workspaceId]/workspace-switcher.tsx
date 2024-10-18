@@ -17,7 +17,8 @@ import React from "react";
 export const WorkspaceSwitcher = () => {
   const router = useRouter();
   const workspaceId = useWorkspaceId();
-  const [_open, setOpen] = useCreateWorkspaceModal();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [open, setOpen] = useCreateWorkspaceModal();
 
   const { data: workspace, isLoading: workspaceLoading } = useGetWorkspace({
     id: workspaceId,
@@ -54,7 +55,11 @@ export const WorkspaceSwitcher = () => {
             onClick={() => router.push(`/workspace/${workspace._id}`)}
           >
             <div className="shrink-0 size-9 relative overflow-hidden bg-[#616061] text-white font-semibold text-lg rounded-md flex items-center justify-center mr-2">
-              {workspace.name.charAt(0).toUpperCase()}
+              {workspacesLoading ? (
+                <Loader className="size-5 animate-spin shrink-0" />
+              ) : (
+                workspace.name.charAt(0).toUpperCase()
+              )}
             </div>
             <p className="truncate">{workspace.name}</p>
           </DropdownMenuItem>

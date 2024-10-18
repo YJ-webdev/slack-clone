@@ -33,17 +33,17 @@ export const UserButton = () => {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger className="ouline-none relative">
-        <Avatar className="size-10 hover:opacity-75 transition">
+        <Avatar className="rounded-md size-10 hover:opacity-75 transition">
           <AvatarImage alt={name} src={image} />
-          <AvatarFallback className="bg-sky-500 text-white">
+          <AvatarFallback className="bg-sky-500 text-white rounded-md">
             {avatarFallback}
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="center" side="right" className="w-60">
+      <DropdownMenuContent align="center" side="right" className="w-60 ">
         <DropdownMenuItem
           onClick={() => signOut()}
-          className="h-10 cursor-pointer"
+          className="h-10 cursor-pointer bg-white ml-1"
         >
           <LogOut className="size-4 mr-2" /> Log out
         </DropdownMenuItem>
