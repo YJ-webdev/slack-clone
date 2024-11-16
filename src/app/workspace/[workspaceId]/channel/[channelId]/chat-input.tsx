@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import { useRef, useState } from "react";
 import Quill from "quill";
-import { useCreateMessage } from "@/features/messages/api/use-create-message";
+import { useCreateMessage } from "@/features/messages/api/use-create-messages";
 import { useChannelId } from "@/hooks/use-channel-id";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { toast } from "sonner";

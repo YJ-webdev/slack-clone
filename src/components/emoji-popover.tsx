@@ -15,12 +15,12 @@ import { PopoverTrigger } from "@radix-ui/react-popover";
 interface EmojiPopoverProps {
   children: React.ReactNode;
   hint?: string;
-  onEmojiSelect: (emoji: string) => void;
+  onEmojiSelect: (emoji: any) => void;
 }
 
 export const EmojiPopover = ({
   children,
-  hint = "Emojis",
+  hint = "Emoji",
   onEmojiSelect,
 }: EmojiPopoverProps) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
@@ -46,8 +46,8 @@ export const EmojiPopover = ({
           <PopoverTrigger asChild>
             <TooltipTrigger asChild>{children}</TooltipTrigger>
           </PopoverTrigger>
-          <TooltipContent className="bg-black text-white border border-white/5">
-            <p className="font-medium text-sx">{hint}</p>
+          <TooltipContent className="bg-black py-1 px-2  text-white border border-white/5">
+            <p className="font-medium text-xs">{hint}</p>
           </TooltipContent>
         </Tooltip>
 
