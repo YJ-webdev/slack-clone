@@ -8,7 +8,7 @@ import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useCurrentMember } from "@/features/members/api/use-current-member";
 import { Loader } from "lucide-react";
 
-const TIME_THRESHOLD = 5;
+const TIME_THRESHOLD = 20;
 
 interface MessageListProps {
   memberName?: string;
@@ -85,8 +85,8 @@ export const MessageList = ({
                 key={message._id}
                 id={message._id}
                 memberId={message.memberId}
-                autherImage={message.user.image}
-                autherName={message.user.name}
+                authorImage={message.user.image}
+                authorName={message.user.name}
                 isAuthor={message.memberId === currentMember?._id}
                 reactions={message.reactions}
                 body={message.body}

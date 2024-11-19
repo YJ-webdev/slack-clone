@@ -1,5 +1,6 @@
 import { ConvexClientProvider } from "@/components/ConvexClientProvider";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
+import { NuqsAdapter } from "nuqs/adapters/next";
 
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -24,11 +25,14 @@ export default function RootLayout({
     <ConvexAuthNextjsServerProvider>
       <html lang="en">
         <body className={inter.className}>
-          <ConvexClientProvider>
-            <Toaster />
-            <Modals />
-            {children}
-          </ConvexClientProvider>
+          {" "}
+          <NuqsAdapter>
+            <ConvexClientProvider>
+              <Toaster />
+              <Modals />
+              {children}
+            </ConvexClientProvider>
+          </NuqsAdapter>
         </body>
       </html>
     </ConvexAuthNextjsServerProvider>

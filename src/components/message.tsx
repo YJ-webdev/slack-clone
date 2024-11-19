@@ -12,6 +12,7 @@ import { useRemoveMessage } from "@/features/messages/api/use-remove-message";
 import { useConfirm } from "@/hooks/use-confirm";
 import { useToggleReaction } from "@/features/reactions/api/use-toggle-reaction";
 import { Reactions } from "./reactions";
+import { usePanel } from "@/hooks/use-panel";
 
 const Renderer = dynamic(() => import("./renderer"), { ssr: false });
 const Editor = dynamic(() => import("./editor"), { ssr: false });
@@ -19,8 +20,8 @@ const Editor = dynamic(() => import("./editor"), { ssr: false });
 interface MessageProps {
   id: Id<"messages">;
   memberId: Id<"members">;
-  autherImage: string;
-  autherName: string;
+  authorImage: string;
+  authorName: string;
   isAuthor: boolean;
   reactions: Array<
     Omit<Doc<"reactions">, "memberId"> & {
@@ -48,8 +49,8 @@ const formatFullTime = (date: Date) => {
 export const Message = ({
   id,
   memberId,
-  autherImage,
-  autherName = "Member",
+  authorImage,
+  authorName = "Member",
   isAuthor,
   reactions,
   body,
@@ -64,6 +65,8 @@ export const Message = ({
   threadImage,
   threadTimestamp,
 }: MessageProps) => {
+  const { parentMessageId, onOpenMessage, onClose } = usePanel();
+
   const [ConfirmDialog, confirm] = useConfirm(
     "Delete message",
     "Are you sure you want to delete this message? This action cannot be undone.",
@@ -101,6 +104,10 @@ export const Message = ({
         onSuccess: () => {
           toast.success("Message deleted");
           setEditingId(null);
+
+          if (parentMessageId === id) {
+            onClose();
+          }
         },
         onError: () => {
           toast.error("Failed to delete message");
@@ -171,7 +178,7 @@ export const Message = ({
               isAuthor={isAuthor}
               isPending={isPending}
               handleEdit={() => setEditingId(id)}
-              handleThread={() => {}}
+              handleThread={() => onOpenMessage(id)}
               handleDelete={handleRemove}
               hideThreadButton={hideThreadButton}
               handleReaction={handleReaction}
@@ -196,9 +203,9 @@ export const Message = ({
         <div className="flex items-start gap-2 w-full">
           <button>
             <Avatar>
-              <AvatarImage src={autherImage} />
+              <AvatarImage src={authorImage} />
               <AvatarFallback>
-                {autherName.charAt(0).toUpperCase()}
+                {authorName.charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
           </button>
@@ -219,7 +226,7 @@ export const Message = ({
                   onClick={() => {}}
                   className="font-bold text-primary hover:underline"
                 >
-                  {autherName}
+                  {authorName}
                 </button>
                 <span>&nbsp;&nbsp;</span>
                 <Hint label={formatFullTime(new Date(createdAt))}>
@@ -243,7 +250,7 @@ export const Message = ({
             isAuthor={isAuthor}
             isPending={isPending}
             handleEdit={() => setEditingId(id)}
-            handleThread={() => {}}
+            handleThread={() => onOpenMessage(id)}
             handleDelete={handleRemove}
             hideThreadButton={hideThreadButton}
             handleReaction={handleReaction}
