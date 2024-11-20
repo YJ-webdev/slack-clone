@@ -13,6 +13,7 @@ import { useConfirm } from "@/hooks/use-confirm";
 import { useToggleReaction } from "@/features/reactions/api/use-toggle-reaction";
 import { Reactions } from "./reactions";
 import { usePanel } from "@/hooks/use-panel";
+import { ThreadBar } from "./thread-bar";
 
 const Renderer = dynamic(() => import("./renderer"), { ssr: false });
 const Editor = dynamic(() => import("./editor"), { ssr: false });
@@ -20,8 +21,8 @@ const Editor = dynamic(() => import("./editor"), { ssr: false });
 interface MessageProps {
   id: Id<"messages">;
   memberId: Id<"members">;
-  authorImage: string;
-  authorName: string;
+  authorImage?: string;
+  authorName?: string;
   isAuthor: boolean;
   reactions: Array<
     Omit<Doc<"reactions">, "memberId"> & {
@@ -40,6 +41,7 @@ interface MessageProps {
   threadCount?: number;
   threadImage?: string;
   threadTimestamp?: number;
+  threadName?: string;
 }
 
 const formatFullTime = (date: Date) => {
@@ -62,8 +64,9 @@ export const Message = ({
   setEditingId,
   hideThreadButton,
   threadCount,
-  threadImage,
   threadTimestamp,
+  threadImage,
+  threadName,
 }: MessageProps) => {
   const { parentMessageId, onOpenMessage, onClose } = usePanel();
 
@@ -169,6 +172,13 @@ export const Message = ({
                   </span>
                 ) : null}
                 <Reactions data={reactions} onChange={handleReaction} />
+                <ThreadBar
+                  count={threadCount}
+                  timestamp={threadTimestamp}
+                  image={threadImage}
+                  name={threadName}
+                  onClick={() => onOpenMessage(id)}
+                />
               </div>
             )}
           </div>
@@ -241,6 +251,13 @@ export const Message = ({
                 <span className="text-xs text-muted-foreground">(edited)</span>
               ) : null}
               <Reactions data={reactions} onChange={handleReaction} />
+              <ThreadBar
+                count={threadCount}
+                image={threadImage}
+                timestamp={threadTimestamp}
+                name={threadName}
+                onClick={() => onOpenMessage(id)}
+              />
             </div>
           )}
         </div>

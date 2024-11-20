@@ -7,6 +7,7 @@ import { Id } from "../../convex/_generated/dataModel";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useCurrentMember } from "@/features/members/api/use-current-member";
 import { Loader } from "lucide-react";
+import { ConversationHero } from "./conversation-hero";
 
 const TIME_THRESHOLD = 20;
 
@@ -16,7 +17,7 @@ interface MessageListProps {
   channelName?: string;
   channelCreationTime?: number;
   variant?: "channel" | "thread" | "conversation";
-  data: GetMessagesReturnType;
+  data: GetMessagesReturnType | undefined;
   loadMore: () => void;
   isLoadingMore: boolean;
   canLoadMore: boolean;
@@ -98,8 +99,9 @@ export const MessageList = ({
                 isCompact={isCompact}
                 hideThreadButton={variant === "thread"}
                 threadCount={message.threadCount}
-                threadImage={message.threadImage}
                 threadTimestamp={message.threadTimestamp}
+                threadImage={message.threadImage}
+                threadName={message.threadName}
               />
             );
           })}
@@ -132,6 +134,9 @@ export const MessageList = ({
       )}
       {variant === "channel" && channelName && channelCreationTime && (
         <ChannelHero name={channelName} creationTime={channelCreationTime} />
+      )}
+      {variant === "conversation" && (
+        <ConversationHero name={memberName} image={memberImage} />
       )}
     </div>
   );

@@ -19,8 +19,10 @@ import { WorkspaceHeader } from "./workspace-header";
 import { SidebarItem } from "./sidebar-item";
 import { WorkspaceSection } from "./workspace-section";
 import { UserItem } from "./user-item";
+import { useMemberId } from "@/hooks/use-member-id";
 
 export const WorkspaceSidebar = () => {
+  const memberId = useMemberId();
   const workspaceId = useWorkspaceId();
   const channelId = useChannelId();
 
@@ -98,6 +100,7 @@ export const WorkspaceSidebar = () => {
               label={item.user.name}
               id={item._id}
               image={item.user.image}
+              variant={item._id === memberId ? "active" : "default"}
             />
           ))}
         </WorkspaceSection>
